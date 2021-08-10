@@ -1,3 +1,3 @@
 #DB Login data
 DBConfig.java
-src/main/resources/application.properties
+application.properties

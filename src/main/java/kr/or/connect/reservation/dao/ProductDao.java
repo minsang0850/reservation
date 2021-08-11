@@ -24,7 +24,7 @@ public class ProductDao {
 	private RowMapper<Product> rowMapper = BeanPropertyRowMapper.newInstance(Product.class);
 	
 	final String SELECT_COUNT = "SELECT COUNT(*) from product where id = :id";
-	
+	final String SELECT_BY_ID = "SELECt * FROM product WHERE category_id = :id";
 	public ProductDao(DataSource dataSource) {
 		this.jdbc=new NamedParameterJdbcTemplate(dataSource);
 	}
@@ -34,5 +34,11 @@ public class ProductDao {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("id", id);
 		return jdbc.queryForObject(SELECT_COUNT, params, Integer.class);
+	}
+	
+	public List<Product> getProductList(int id) {
+		Map<String, Integer> params = new HashMap<>();
+		params.put("id", id);
+		return jdbc.query(SELECT_BY_ID, params, rowMapper);
 	}
 }

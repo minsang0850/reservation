@@ -22,6 +22,8 @@ import kr.or.connect.reservation.dto.category.Category;
 import kr.or.connect.reservation.service.CategoryService;
 import kr.or.connect.reservation.dto.product.Product;
 import kr.or.connect.reservation.service.ProductService;
+import kr.or.connect.reservation.dto.displayInfo.DisplayInfo;
+import kr.or.connect.reservation.service.DisplayInfoService;
 
 class Item{
 	private int id;
@@ -57,17 +59,27 @@ public class ApiController {
 	@Autowired
 	ProductService productService;
 	
+	@Autowired
+	DisplayInfoService displayInfoService;
+	
 	@GetMapping	(path="/categories")						//Get method로 요청이 오면
-	public Map<String, Object> list() {
+	public Map<String, Object> categories() {
+		Map<String, Object> map = new HashMap<>();
 		List<Category> categoryList=categoryService.getCategories();
 		List<Item> items=new ArrayList<Item>();
 		int size=categoryList.size();
-		Map<String, Object> map = new HashMap<>();
 		map.put("size", size);
 		for(int i=0; i<size; i++) {
 			int id=categoryList.get(i).getId();
 			String name=categoryList.get(i).getName();
-			int count=productService.getCount(id);
+			int count=0;
+			List<Product> productList=productService.getProducts(id);
+			//if(i==0) map.put("productList",productList);
+			for(int j=0; j<productList.size(); j++) {
+				int productId = productList.get(j).getId();
+				System.out.println("productId:"+productId);
+				count+=displayInfoService.getCount(productId);
+			}
 			Item item=new Item();
 			item.setId(id);
 			item.setName(name);
@@ -77,4 +89,20 @@ public class ApiController {
 		map.put("items",items);
 		return map;
 	}
+	/*
+	@GetMapping	(path="/displayinfos")
+	public Map<String, Object> displayinfos( 
+			@RequestParam(name="categoryId", required=false, defaultValue="0") int categoryId,
+			@RequestParam(name="start", required=false, defaultValue="0") int start
+			){
+		Map<String, Object> map = new HashMap<>();
+		List<Product> productList=productService.getProducts(categoryId);
+		int totalCount=0;
+		int productCount=0;
+		for(int i=0; i<productCount; i++) {
+			int id=productList.get(i).getId();
+		}
+		return map;
+	}
+	*/
 }

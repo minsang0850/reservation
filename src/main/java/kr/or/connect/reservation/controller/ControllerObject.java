@@ -1,10 +1,40 @@
-package kr.or.connect.reservation.dto.displayInfo;
+package kr.or.connect.reservation.controller;
 
 import java.sql.Timestamp;
-
-public class DisplayInfo {
+import java.util.*;
+class Item{
 	private int id;
-	private int productId;
+	private String name;
+	private int count;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+}
+
+class ProductVO{
+	private int id;
+	private int categoryId;
+	private int displayInfoId;
+	private String name;
+	private String description;
+	private String content;
+	private String event;
 	private String openingHours;
 	private String placeName;
 	private String placeLot;
@@ -14,17 +44,48 @@ public class DisplayInfo {
 	private String email;
 	private Timestamp createDate;
 	private Timestamp modifyDate;
+	private int field;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getProductId() {
-		return productId;
+	public int getCategoryId() {
+		return categoryId;
 	}
-	public void setProductId(int productId) {
-		this.productId = productId;
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+	public int getDisplayInfoId() {
+		return displayInfoId;
+	}
+	public void setDisplayInfoId(int displayInfoId) {
+		this.displayInfoId = displayInfoId;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public String getContent() {
+		return content;
+	}
+	public void setContent(String content) {
+		this.content = content;
+	}
+	public String getEvent() {
+		return event;
+	}
+	public void setEvent(String event) {
+		this.event = event;
 	}
 	public String getOpeningHours() {
 		return openingHours;
@@ -80,11 +141,15 @@ public class DisplayInfo {
 	public void setModifyDate(Timestamp modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-	@Override
-	public String toString() {
-		return "DisplayInfo [id=" + id + ", productId=" + productId + ", openingHours=" + openingHours + ", placeName="
-				+ placeName + ", placeStreet=" + placeStreet + ", tel=" + tel + ", homepage=" + homepage + ", email="
-				+ email + ", createDate=" + createDate + ", modifyDate=" + modifyDate + "]";
+	public int getField() {
+		return field;
+	}
+	public void setField(int field) {
+		this.field = field;
 	}
 	
+}
+
+public class ControllerObject {
+
 }

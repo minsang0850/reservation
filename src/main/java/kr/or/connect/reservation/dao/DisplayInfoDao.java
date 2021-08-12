@@ -23,15 +23,17 @@ public class DisplayInfoDao {
 	//private SimpleJdbcInsert insertAction;
 	private RowMapper<DisplayInfo> rowMapper = BeanPropertyRowMapper.newInstance(DisplayInfo.class);
 	
-	final String SELECT_TO_START = "SELECT * FROM display_info WHERE id>=start";
+	final String SELECT_TO_START = "SELECT * FROM display_info WHERE product_id= :product_id";
 	final String SELECT_COUNT = "SELECT COUNT(*) FROM display_info WHERE product_id= :product_id";
 	
 	public DisplayInfoDao(DataSource dataSource) {
 		this.jdbc=new NamedParameterJdbcTemplate(dataSource);
 	}
 	
-	public List<DisplayInfo> getDisplayInfos() {
-		return jdbc.query(SELECT_TO_START, rowMapper);
+	public List<DisplayInfo> getDisplayInfos(int productId) {
+		Map<String, Integer> params = new HashMap<>();
+		params.put("product_id", productId);
+		return jdbc.query(SELECT_TO_START, params, rowMapper);
 	}
 	
 	public int getCount(int productId) {

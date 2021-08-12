@@ -20,7 +20,7 @@ public class DisplayInfoServiceImpl implements DisplayInfoService{
 		return displayInfoDao.getCount(productId);
 	}
 	
-	public List<DisplayInfo> getDisplayInfo(int start){
-		return displayInfoDao.getDisplayInfos();
+	public List<DisplayInfo> getDisplayInfos(int productId){
+		return displayInfoDao.getDisplayInfos(productId);
 	}
 }

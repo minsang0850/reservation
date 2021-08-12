@@ -24,7 +24,8 @@ import kr.or.connect.reservation.dto.product.Product;
 import kr.or.connect.reservation.service.ProductService;
 import kr.or.connect.reservation.dto.displayInfo.DisplayInfo;
 import kr.or.connect.reservation.service.DisplayInfoService;
-
+import kr.or.connect.reservation.controller.*;
+/*
 class Item{
 	private int id;
 	private String name;
@@ -50,6 +51,26 @@ class Item{
 	}
 }
 
+class Products{
+	private int id;
+	private int categoryId;
+	private int displayInfold;
+	private String name;
+	private String description;
+	private String content;
+	private String event;
+	private String openingHours;
+	private String placeName;
+	private String placeLot;
+	private String placeStreet;
+	private String tel;
+	private String homepage;
+	private String email;
+	private Timestamp createDate;
+	private TImestamp modifyDate;
+	private int field;
+}
+*/
 @RestController
 @RequestMapping(path="/api")		//api로 요청이 들어오면 매핑
 public class ApiController {
@@ -89,7 +110,7 @@ public class ApiController {
 		map.put("items",items);
 		return map;
 	}
-	/*
+	
 	@GetMapping	(path="/displayinfos")
 	public Map<String, Object> displayinfos( 
 			@RequestParam(name="categoryId", required=false, defaultValue="0") int categoryId,
@@ -99,10 +120,42 @@ public class ApiController {
 		List<Product> productList=productService.getProducts(categoryId);
 		int totalCount=0;
 		int productCount=0;
-		for(int i=0; i<productCount; i++) {
-			int id=productList.get(i).getId();
+		List<ProductVO> products = new ArrayList<ProductVO>();
+		Category category=categoryService.getCategory(categoryId);
+		for(int i=0; i<productList.size(); i++) {
+			int productId = productList.get(i).getId();
+			totalCount+=displayInfoService.getCount(productId);
+			if(i>=start && i<start+4) {
+				productCount+=displayInfoService.getCount(productId);
+				List<DisplayInfo> list=displayInfoService.getDisplayInfos(productId);
+				for(int j=0; j<list.size(); j++) {
+					ProductVO productVO = new ProductVO();
+					//DisplayInfo displayInfo=list.get(i);
+					productVO.setId(productId);
+					productVO.setCategoryId(categoryId);
+					productVO.setDisplayInfoId(list.get(j).getId());
+					productVO.setName(category.getName());	//카테고리 이름
+					productVO.setDescription(productList.get(i).getDescription());
+					productVO.setContent(productList.get(i).getContent());
+					productVO.setEvent(productList.get(i).getEvent());
+					productVO.setOpeningHours(list.get(j).getOpeningHours());
+					productVO.setPlaceName(list.get(j).getPlaceName());
+					productVO.setPlaceLot(list.get(j).getPlaceLot());
+					productVO.setPlaceStreet(list.get(j).getPlaceStreet());
+					productVO.setTel(list.get(j).getTel());
+					productVO.setHomepage(list.get(j).getHomepage());
+					productVO.setEmail(list.get(j).getEmail());
+					productVO.setCreateDate(list.get(j).getCreateDate());
+					productVO.setModifyDate(list.get(j).getModifyDate());
+					productVO.setField(100);
+					products.add(productVO);
+				}
+			}
 		}
+		map.put("totalCount",totalCount);
+		map.put("productCount",productCount);
+		map.put("products",products);
 		return map;
 	}
-	*/
+	
 }

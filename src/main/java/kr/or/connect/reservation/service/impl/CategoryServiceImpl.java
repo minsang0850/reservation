@@ -22,4 +22,8 @@ public class CategoryServiceImpl implements CategoryService {
 		List<Category> list = categoryDao.getCategoryList();
 		return list;
 	}
+	
+	public Category getCategory(int id) {
+		return categoryDao.getCategory(id);
+	}
 }

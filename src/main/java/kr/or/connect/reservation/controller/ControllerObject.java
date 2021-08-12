@@ -2,7 +2,7 @@ package kr.or.connect.reservation.controller;
 
 import java.sql.Timestamp;
 import java.util.*;
-class Item{
+class CategoryItem{
 	private int id;
 	private String name;
 	private int count;
@@ -44,7 +44,7 @@ class ProductVO{
 	private String email;
 	private Timestamp createDate;
 	private Timestamp modifyDate;
-	private int field;
+	private int fileId;
 	public int getId() {
 		return id;
 	}
@@ -141,11 +141,57 @@ class ProductVO{
 	public void setModifyDate(Timestamp modifyDate) {
 		this.modifyDate = modifyDate;
 	}
-	public int getField() {
-		return field;
+	public int getFileId() {
+		return fileId;
 	}
-	public void setField(int field) {
-		this.field = field;
+	public void setFileId(int fileId) {
+		this.fileId = fileId;
+	}
+	
+}
+
+class PromotionItem{
+	private int id;
+	private int productId;
+	private int categoryId;
+	private String categoryName;
+	private String description;
+	private int fileId;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getProductId() {
+		return productId;
+	}
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+	public int getCategoryId() {
+		return categoryId;
+	}
+	public void setCategoryId(int categoryId) {
+		this.categoryId = categoryId;
+	}
+	public String getCategoryName() {
+		return categoryName;
+	}
+	public void setCategoryName(String categoryName) {
+		this.categoryName = categoryName;
+	}
+	public String getDescription() {
+		return description;
+	}
+	public void setDescription(String description) {
+		this.description = description;
+	}
+	public int getFileId() {
+		return fileId;
+	}
+	public void setFileId(int fileId) {
+		this.fileId = fileId;
 	}
 	
 }

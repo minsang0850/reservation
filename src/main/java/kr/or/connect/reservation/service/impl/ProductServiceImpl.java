@@ -23,8 +23,16 @@ public class ProductServiceImpl implements ProductService {
 		return productDao.getProductCount(id);
 	}
 	
+	@Override
+	@Transactional
 	public List<Product> getProducts(int id) {
 		List<Product> list = productDao.getProductList(id);
 		return list;
+	}
+	
+	@Override
+	@Transactional
+	public Product getProduct(int id) {
+		return productDao.getProduct(id);
 	}
 }

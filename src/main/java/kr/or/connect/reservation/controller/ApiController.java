@@ -25,52 +25,9 @@ import kr.or.connect.reservation.service.ProductService;
 import kr.or.connect.reservation.dto.displayInfo.DisplayInfo;
 import kr.or.connect.reservation.service.DisplayInfoService;
 import kr.or.connect.reservation.controller.*;
-/*
-class Item{
-	private int id;
-	private String name;
-	private int count;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public int getCount() {
-		return count;
-	}
-	public void setCount(int count) {
-		this.count = count;
-	}
-}
+import kr.or.connect.reservation.dto.promotion.Promotion;
+import kr.or.connect.reservation.service.PromotionService;
 
-class Products{
-	private int id;
-	private int categoryId;
-	private int displayInfold;
-	private String name;
-	private String description;
-	private String content;
-	private String event;
-	private String openingHours;
-	private String placeName;
-	private String placeLot;
-	private String placeStreet;
-	private String tel;
-	private String homepage;
-	private String email;
-	private Timestamp createDate;
-	private TImestamp modifyDate;
-	private int field;
-}
-*/
 @RestController
 @RequestMapping(path="/api")		//api로 요청이 들어오면 매핑
 public class ApiController {
@@ -83,11 +40,14 @@ public class ApiController {
 	@Autowired
 	DisplayInfoService displayInfoService;
 	
+	@Autowired
+	PromotionService promotionService;
+	
 	@GetMapping	(path="/categories")						//Get method로 요청이 오면
 	public Map<String, Object> categories() {
 		Map<String, Object> map = new HashMap<>();
 		List<Category> categoryList=categoryService.getCategories();
-		List<Item> items=new ArrayList<Item>();
+		List<CategoryItem> items=new ArrayList<CategoryItem>();
 		int size=categoryList.size();
 		map.put("size", size);
 		for(int i=0; i<size; i++) {
@@ -101,7 +61,7 @@ public class ApiController {
 				System.out.println("productId:"+productId);
 				count+=displayInfoService.getCount(productId);
 			}
-			Item item=new Item();
+			CategoryItem item=new CategoryItem();
 			item.setId(id);
 			item.setName(name);
 			item.setCount(count);
@@ -147,7 +107,7 @@ public class ApiController {
 					productVO.setEmail(list.get(j).getEmail());
 					productVO.setCreateDate(list.get(j).getCreateDate());
 					productVO.setModifyDate(list.get(j).getModifyDate());
-					productVO.setField(100);
+					productVO.setFileId(100);
 					products.add(productVO);
 				}
 			}
@@ -158,4 +118,34 @@ public class ApiController {
 		return map;
 	}
 	
+	@GetMapping	(path="/promotions")						//Get method로 요청이 오면
+	public Map<String, Object> promotions() {
+		Map<String, Object> map = new HashMap<>();
+		List<Promotion> promotionList=promotionService.getPromotions();
+		List<PromotionItem> items=new ArrayList<PromotionItem>();
+		Product product;
+		Category category;
+		int size=promotionList.size();
+		map.put("size", size);
+		for(int i=0; i<size; i++) {
+			int id=promotionList.get(i).getId();
+			int productId=promotionList.get(i).getProductId();
+			product = productService.getProduct(productId);
+			int categoryId=product.getCategoryId();
+			category = categoryService.getCategory(categoryId);
+			String categoryName=category.getName();
+			String description=product.getDescription();
+			PromotionItem item=new PromotionItem();
+			int fileId=10;
+			
+			item.setId(id);
+			item.setProductId(productId);
+			item.setCategoryId(categoryId);
+			item.setCategoryName(categoryName);
+			item.setFileId(fileId);
+			items.add(item);
+		}
+		map.put("items",items);
+		return map;
+	}
 }

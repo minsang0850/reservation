@@ -24,24 +24,17 @@ public class ReservationServiceImpl implements ReservationService {
 	
 	@Autowired
 	private ReservationUserCommentImageDao reservationUserCommentImageDao;
-	/*
-	@Autowired
-	private ReservationInfoDao reservationInfoDao;
 	
-	@Autowired
-	private ReservationInfoPriceDao reservationInfoPriceDao;
-	
-	@Override
-	@Transactional
-	public List<ReservationInfo> getReservationInfo(int productId) {
-		List<ReservationUserComment> list = reservationUserCommentDao.getReservationUserComments(productId);
-		return list;
-	}
-	*/
 	@Override
 	@Transactional
 	public List<ReservationUserComment> getReservationUserComments(int productId) {
 		List<ReservationUserComment> list = reservationUserCommentDao.getReservationUserComments(productId);
 		return list;
+	}
+	
+	@Override
+	@Transactional
+	public List<ReservationUserCommentImage> getReservationUserCommentImages(int commentId){
+		return  reservationUserCommentImageDao.getReservationUserCommentImages(commentId);
 	}
 }

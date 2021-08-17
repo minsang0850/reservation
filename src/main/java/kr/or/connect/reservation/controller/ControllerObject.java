@@ -11,6 +11,7 @@ import kr.or.connect.reservation.dto.category.*;
 import kr.or.connect.reservation.dto.product.*;
 import kr.or.connect.reservation.dto.displayInfo.*;
 import kr.or.connect.reservation.dto.promotion.*;
+import kr.or.connect.reservation.dto.reservation.*;
 
 class CategoryItem{
 	private int id;
@@ -432,7 +433,62 @@ class ReservationUserCommentVO{
 	private String comment;
 	private Timestamp createDate;
 	private Timestamp modifyDate;
-	private int reservationUsercommentImages;
+	private List<ReservationUserCommentImage> reservationUsercommentImages;
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getProductId() {
+		return productId;
+	}
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+	public int getReservationInfoId() {
+		return reservationInfoId;
+	}
+	public void setReservationInfoId(int reservationInfoId) {
+		this.reservationInfoId = reservationInfoId;
+	}
+	public int getScore() {
+		return score;
+	}
+	public void setScore(int score) {
+		this.score = score;
+	}
+	public String getReservationEmail() {
+		return reservationEmail;
+	}
+	public void setReservationEmail(String reservationEmail) {
+		this.reservationEmail = reservationEmail;
+	}
+	public String getComment() {
+		return comment;
+	}
+	public void setComment(String comment) {
+		this.comment = comment;
+	}
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+	public Timestamp getModifyDate() {
+		return modifyDate;
+	}
+	public void setModifyDate(Timestamp modifyDate) {
+		this.modifyDate = modifyDate;
+	}
+	public List<ReservationUserCommentImage> getReservationUsercommentImages() {
+		return reservationUsercommentImages;
+	}
+	public void setReservationUserCommentImages( List<ReservationUserCommentImage> reservationUsercommentImages) {
+		this.reservationUsercommentImages = reservationUsercommentImages;
+	}
+	
 }
 
 public class ControllerObject {

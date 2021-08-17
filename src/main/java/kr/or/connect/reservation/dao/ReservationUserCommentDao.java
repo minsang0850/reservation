@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import kr.or.connect.reservation.dto.promotion.Promotion;
 import kr.or.connect.reservation.dto.reservation.ReservationUserComment;
 
 @Repository

@@ -12,23 +12,25 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import kr.or.connect.reservation.dto.promotion.Promotion;
+import kr.or.connect.reservation.dto.product.Product;
 import kr.or.connect.reservation.dto.reservation.ReservationUserCommentImage;
+import kr.or.connect.reservation.dto.user.*;
 
 @Repository
-public class ReservationUserCommentImageDao {
+public class UserDao {
 	private NamedParameterJdbcTemplate jdbc;
-	private RowMapper<ReservationUserCommentImage> rowMapper = BeanPropertyRowMapper.newInstance(ReservationUserCommentImage.class);
+	private RowMapper<User> rowMapper = BeanPropertyRowMapper.newInstance(User.class);
 	
-	final String SELECT_BY_COMMENT = "SELECT * FROM reservation_user_comment_image WHERE reservation_user_comment_id = :id";
+	final String SELECT_BY_ID = "SELECT * FROM user WHERE id = :id";
 	
-	public ReservationUserCommentImageDao(DataSource dataSource) {
+	public UserDao(DataSource dataSource) {
 		this.jdbc=new NamedParameterJdbcTemplate(dataSource);
 	}
 	
-	public List<ReservationUserCommentImage> getReservationUserCommentImages(int commentId){
+	public User getUser(int id){
 		Map<String, Integer> params = new HashMap<>();
-		params.put("id", commentId);
-		return jdbc.query(SELECT_BY_COMMENT, params, rowMapper);
+		params.put("id", id);
+		List<User> list = jdbc.query(SELECT_BY_ID, params, rowMapper);
+		return list.get(0);
 	}
 }

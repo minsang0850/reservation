@@ -17,14 +17,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
+/*
 import kr.or.connect.reservation.dto.category.Category;
 import kr.or.connect.reservation.service.CategoryService;
 import kr.or.connect.reservation.dto.product.Product;
 import kr.or.connect.reservation.service.ProductService;
 import kr.or.connect.reservation.dto.displayInfo.DisplayInfo;
 import kr.or.connect.reservation.service.DisplayInfoService;
-import kr.or.connect.reservation.controller.*;
 import kr.or.connect.reservation.dto.promotion.Promotion;
 import kr.or.connect.reservation.service.PromotionService;
 import kr.or.connect.reservation.dto.product.ProductImage;
@@ -32,6 +31,17 @@ import kr.or.connect.reservation.dto.fileInfo.FileInfo;
 import kr.or.connect.reservation.service.FileInfoService;
 import kr.or.connect.reservation.dto.displayInfo.DisplayInfoImage;
 import kr.or.connect.reservation.dto.product.ProductPrice;
+*/
+import kr.or.connect.reservation.controller.*;
+import kr.or.connect.reservation.service.*;
+import kr.or.connect.reservation.dao.*;
+import kr.or.connect.reservation.dto.user.*;
+import kr.or.connect.reservation.dto.category.*;
+import kr.or.connect.reservation.dto.displayInfo.*;
+import kr.or.connect.reservation.dto.fileInfo.*;
+import kr.or.connect.reservation.dto.product.*;
+import kr.or.connect.reservation.dto.promotion.*;
+import kr.or.connect.reservation.dto.reservation.*;
 
 @RestController
 @RequestMapping(path="/api")		//api로 요청이 들어오면 매핑
@@ -48,11 +58,14 @@ public class ApiController {
 	@Autowired
 	PromotionService promotionService;
 	
-	
 	@Autowired
 	FileInfoService fileInfoService;
 	
+	@Autowired
+	ReservationService reservationService;
 	
+	@Autowired
+	UserService userService;
 	
 	@GetMapping	(path="/categories")						//Get method로 요청이 오면
 	public Map<String, Object> categories() {
@@ -246,8 +259,8 @@ public class ApiController {
 		return map;
 	}
 	
-	/*
-	@GetMapping	(path="/displayinfos")
+	
+	@GetMapping	(path="/comments")
 	public Map<String, Object> displayinfos_product( 
 			@RequestParam(name="productId", required=false, defaultValue="0") int productId,
 			@RequestParam(name="start", required=false, defaultValue="0") int start
@@ -256,42 +269,31 @@ public class ApiController {
 		Product product=productService.getProduct(productId);
 		int totalCount=0;
 		int commentCount=0;
-		List<ProductVO> products = new ArrayList<ProductVO>();
-		Category category=categoryService.getCategory(categoryId);
-		for(int i=0; i<productList.size(); i++) {
-			int productId = productList.get(i).getId();
-			totalCount+=displayInfoService.getCount(productId);
-			if(i>=start && i<start+4) {
-				productCount+=displayInfoService.getCount(productId);
-				List<DisplayInfo> list=displayInfoService.getDisplayInfos(productId);
-				for(int j=0; j<list.size(); j++) {
-					ProductVO productVO = new ProductVO();
-					//DisplayInfo displayInfo=list.get(i);
-					productVO.setId(productId);
-					productVO.setCategoryId(categoryId);
-					productVO.setDisplayInfoId(list.get(j).getId());
-					productVO.setName(category.getName());	//카테고리 이름
-					productVO.setDescription(productList.get(i).getDescription());
-					productVO.setContent(productList.get(i).getContent());
-					productVO.setEvent(productList.get(i).getEvent());
-					productVO.setOpeningHours(list.get(j).getOpeningHours());
-					productVO.setPlaceName(list.get(j).getPlaceName());
-					productVO.setPlaceLot(list.get(j).getPlaceLot());
-					productVO.setPlaceStreet(list.get(j).getPlaceStreet());
-					productVO.setTel(list.get(j).getTel());
-					productVO.setHomepage(list.get(j).getHomepage());
-					productVO.setEmail(list.get(j).getEmail());
-					productVO.setCreateDate(list.get(j).getCreateDate());
-					productVO.setModifyDate(list.get(j).getModifyDate());
-					productVO.setFileId(100);
-					products.add(productVO);
-				}
+		List<ReservationUserComment> reservationUserComments = reservationService.getReservationUserComments(productId);
+		totalCount=reservationUserComments.size();
+		List<ReservationUserCommentVO> list=new ArrayList<ReservationUserCommentVO>();
+		for(int i=0; i<totalCount; i++) {
+			if(i>=start && i<start+5) {
+				commentCount++;
+				ReservationUserCommentVO VO= new ReservationUserCommentVO();
+				VO.setId(reservationUserComments.get(i).getId());
+				VO.setProductId(reservationUserComments.get(i).getProductId());
+				VO.setReservationInfoId(reservationUserComments.get(i).getReservationInfoId());
+				VO.setScore(reservationUserComments.get(i).getScore());
+				User user=userService.getUser(reservationUserComments.get(i).getUserId());
+				VO.setReservationEmail(user.getEmail());
+				VO.setComment(reservationUserComments.get(i).getComment());
+				VO.setCreateDate(reservationUserComments.get(i).getCreateDate());
+				VO.setModifyDate(reservationUserComments.get(i).getModifyDate());
+				VO.setReservationUserCommentImages(reservationService.getReservationUserCommentImages(reservationUserComments.get(i).getId()));
+				list.add(VO);
 			}
 		}
-		map.put("totalCount",totalCount);
-		map.put("productCount",productCount);
-		map.put("products",products);
+		map.put("totalCount", totalCount);
+		map.put("commentCount", commentCount);
+		map.put("reservationUserComments",list);
+		
 		return map;
 	}
-	*/
+	
 }

@@ -10,4 +10,5 @@ import org.springframework.stereotype.Service;
 public interface DisplayInfoService {
 	public int getCount(int productId);
 	public List<DisplayInfo> getDisplayInfos(int productId);
+	public DisplayInfo getDisplayInfo(int id);
 }

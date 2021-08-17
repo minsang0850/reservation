@@ -16,11 +16,21 @@ public class DisplayInfoServiceImpl implements DisplayInfoService{
 	@Autowired
 	private DisplayInfoDao displayInfoDao;
 	
+	@Override
+	@Transactional
 	public int getCount(int productId) {
 		return displayInfoDao.getCount(productId);
 	}
 	
+	@Override
+	@Transactional
 	public List<DisplayInfo> getDisplayInfos(int productId){
 		return displayInfoDao.getDisplayInfos(productId);
+	}
+	
+	@Override
+	@Transactional
+	public DisplayInfo getDisplayInfo(int id){
+		return displayInfoDao.getDisplayInfo(id);
 	}
 }

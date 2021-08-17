@@ -24,8 +24,8 @@ public class ProductDao {
 	private RowMapper<Product> rowMapper = BeanPropertyRowMapper.newInstance(Product.class);
 	
 	final String SELECT_COUNT = "SELECT COUNT(*) from product where id = :id";
-	final String SELECT_BY_CATEGORY = "SELECt * FROM product WHERE category_id = :id";
-	final String SELECT_BY_ID = "SELECt * FROM product WHERE id = :id";
+	final String SELECT_BY_CATEGORY = "SELECT * FROM product WHERE category_id = :id";
+	final String SELECT_BY_ID = "SELECT * FROM product WHERE id = :id";
 	public ProductDao(DataSource dataSource) {
 		this.jdbc=new NamedParameterJdbcTemplate(dataSource);
 	}

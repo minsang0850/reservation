@@ -23,7 +23,8 @@ public class DisplayInfoDao {
 	//private SimpleJdbcInsert insertAction;
 	private RowMapper<DisplayInfo> rowMapper = BeanPropertyRowMapper.newInstance(DisplayInfo.class);
 	
-	final String SELECT_TO_START = "SELECT * FROM display_info WHERE product_id= :product_id";
+	final String SELECT_BY_PRODUCT = "SELECT * FROM display_info WHERE product_id= :product_id";
+	final String SELECT_BY_ID = "SELECT * FROM display_info WHERE id= :id";
 	final String SELECT_COUNT = "SELECT COUNT(*) FROM display_info WHERE product_id= :product_id";
 	
 	public DisplayInfoDao(DataSource dataSource) {
@@ -33,7 +34,14 @@ public class DisplayInfoDao {
 	public List<DisplayInfo> getDisplayInfos(int productId) {
 		Map<String, Integer> params = new HashMap<>();
 		params.put("product_id", productId);
-		return jdbc.query(SELECT_TO_START, params, rowMapper);
+		return jdbc.query(SELECT_BY_PRODUCT, params, rowMapper);
+	}
+	
+	public DisplayInfo getDisplayInfo(int id) {
+		Map<String, Integer> params = new HashMap<>();
+		params.put("id", id);
+		List<DisplayInfo> list = jdbc.query(SELECT_BY_ID, params, rowMapper);
+		return list.get(0);
 	}
 	
 	public int getCount(int productId) {

@@ -423,6 +423,17 @@ class ProductPriceVO{
 	}	
 }
 
+class ReservationUserCommentVO{
+	private int id;
+	private int productId;
+	private int reservationInfoId;
+	private int score;
+	private String reservationEmail;
+	private String comment;
+	private Timestamp createDate;
+	private Timestamp modifyDate;
+	private int reservationUsercommentImages;
+}
 
 public class ControllerObject {
 

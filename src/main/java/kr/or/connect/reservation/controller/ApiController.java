@@ -28,13 +28,10 @@ import kr.or.connect.reservation.controller.*;
 import kr.or.connect.reservation.dto.promotion.Promotion;
 import kr.or.connect.reservation.service.PromotionService;
 import kr.or.connect.reservation.dto.product.ProductImage;
-import kr.or.connect.reservation.service.ProductImageService;
 import kr.or.connect.reservation.dto.fileInfo.FileInfo;
 import kr.or.connect.reservation.service.FileInfoService;
 import kr.or.connect.reservation.dto.displayInfo.DisplayInfoImage;
-import kr.or.connect.reservation.service.DisplayInfoImageService;
 import kr.or.connect.reservation.dto.product.ProductPrice;
-import kr.or.connect.reservation.service.ProductPriceService;
 
 @RestController
 @RequestMapping(path="/api")		//api로 요청이 들어오면 매핑
@@ -51,17 +48,11 @@ public class ApiController {
 	@Autowired
 	PromotionService promotionService;
 	
-	@Autowired
-	ProductImageService productImageService;
 	
 	@Autowired
 	FileInfoService fileInfoService;
 	
-	@Autowired
-	DisplayInfoImageService displayInfoImageService;
 	
-	@Autowired
-	ProductPriceService productPriceService;
 	
 	@GetMapping	(path="/categories")						//Get method로 요청이 오면
 	public Map<String, Object> categories() {
@@ -91,7 +82,7 @@ public class ApiController {
 	}
 	
 	@GetMapping	(path="/displayinfos")
-	public Map<String, Object> displayinfos( 
+	public Map<String, Object> displayinfos_category( 
 			@RequestParam(name="categoryId", required=false, defaultValue="0") int categoryId,
 			@RequestParam(name="start", required=false, defaultValue="0") int start
 			){
@@ -199,7 +190,7 @@ public class ApiController {
 		productVO.setFileId(100);
 		map.put("product",productVO);
 		
-		List<ProductImage> productImageList=productImageService.getProductImages(productId);
+		List<ProductImage> productImageList=productService.getProductImages(productId);
 		List<ProductImageVO> productImageVOList=new ArrayList<ProductImageVO>();
 		for(int i=0; i<productImageList.size(); i++) {
 			ProductImageVO productImageVO=new ProductImageVO();
@@ -218,7 +209,7 @@ public class ApiController {
 		}
 		map.put("productImages",productImageVOList);
 		
-		List<DisplayInfoImage> displayInfoImageList=displayInfoImageService.getDisplayInfoImages(displayId);
+		List<DisplayInfoImage> displayInfoImageList=displayInfoService.getDisplayInfoImages(displayId);
 		List<DisplayInfoImageVO> displayInfoImageVOList=new ArrayList<DisplayInfoImageVO>();
 		for(int i=0; i<displayInfoImageList.size(); i++) {
 			DisplayInfoImageVO displayInfoImageVO=new DisplayInfoImageVO();
@@ -238,7 +229,7 @@ public class ApiController {
 		
 		map.put("avgScore",3);
 		
-		List<ProductPrice> productPriceList=productPriceService.getProductPrices(productId);
+		List<ProductPrice> productPriceList=productService.getProductPrices(productId);
 		List<ProductPriceVO> productPriceVOList=new ArrayList<ProductPriceVO>();
 		for(int i=0; i<productPriceList.size(); i++) {
 			ProductPriceVO productPriceVO=new ProductPriceVO();
@@ -255,4 +246,52 @@ public class ApiController {
 		return map;
 	}
 	
+	/*
+	@GetMapping	(path="/displayinfos")
+	public Map<String, Object> displayinfos_product( 
+			@RequestParam(name="productId", required=false, defaultValue="0") int productId,
+			@RequestParam(name="start", required=false, defaultValue="0") int start
+			){
+		Map<String, Object> map = new HashMap<>();
+		Product product=productService.getProduct(productId);
+		int totalCount=0;
+		int commentCount=0;
+		List<ProductVO> products = new ArrayList<ProductVO>();
+		Category category=categoryService.getCategory(categoryId);
+		for(int i=0; i<productList.size(); i++) {
+			int productId = productList.get(i).getId();
+			totalCount+=displayInfoService.getCount(productId);
+			if(i>=start && i<start+4) {
+				productCount+=displayInfoService.getCount(productId);
+				List<DisplayInfo> list=displayInfoService.getDisplayInfos(productId);
+				for(int j=0; j<list.size(); j++) {
+					ProductVO productVO = new ProductVO();
+					//DisplayInfo displayInfo=list.get(i);
+					productVO.setId(productId);
+					productVO.setCategoryId(categoryId);
+					productVO.setDisplayInfoId(list.get(j).getId());
+					productVO.setName(category.getName());	//카테고리 이름
+					productVO.setDescription(productList.get(i).getDescription());
+					productVO.setContent(productList.get(i).getContent());
+					productVO.setEvent(productList.get(i).getEvent());
+					productVO.setOpeningHours(list.get(j).getOpeningHours());
+					productVO.setPlaceName(list.get(j).getPlaceName());
+					productVO.setPlaceLot(list.get(j).getPlaceLot());
+					productVO.setPlaceStreet(list.get(j).getPlaceStreet());
+					productVO.setTel(list.get(j).getTel());
+					productVO.setHomepage(list.get(j).getHomepage());
+					productVO.setEmail(list.get(j).getEmail());
+					productVO.setCreateDate(list.get(j).getCreateDate());
+					productVO.setModifyDate(list.get(j).getModifyDate());
+					productVO.setFileId(100);
+					products.add(productVO);
+				}
+			}
+		}
+		map.put("totalCount",totalCount);
+		map.put("productCount",productCount);
+		map.put("products",products);
+		return map;
+	}
+	*/
 }

@@ -17,32 +17,6 @@ class CategoryItem{
 	private int id;
 	private String name;
 	private int count;
-	/*
-	@Autowired
-	CategoryService categoryService;
-	
-	@Autowired
-	ProductService productService;
-	
-	@Autowired
-	DisplayInfoService displayInfoService;
-	
-	@Autowired
-	PromotionService promotionService;
-	
-	public CategoryItem(int id) {
-		this.id=id;
-		Category category=categoryService.getCategory(id);
-		this.name=category.getName();
-		int count=0;
-		List<Product> productList=productService.getProducts(id);
-		for(int i=0; i<productList.size(); i++) {
-			int productId = productList.get(i).getId();
-			count+=displayInfoService.getCount(productId);
-		}
-		this.count=count;
-	}
-	*/
 	
 	public int getId() {
 		return id;
@@ -491,6 +465,6 @@ class ReservationUserCommentVO{
 	
 }
 
-public class ControllerObject {
+public class MainControllerObject {
 
 }

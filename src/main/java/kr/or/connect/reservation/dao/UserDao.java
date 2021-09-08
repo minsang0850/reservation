@@ -33,4 +33,10 @@ public class UserDao {
 		List<User> list = jdbc.query(SELECT_BY_ID, params, rowMapper);
 		return list.get(0);
 	}
+	
+	public User getMemberByEmail(String email) {
+		Map<String,Object> map = new HashMap<>();
+		map.put("email",email);
+		return jdbc.queryForObject(UserDaoSqls.SELECT_ALL_BY_EMAIL,map,rowMapper);
+	}
 }
